@@ -11,7 +11,10 @@ export class NavbarComponent implements OnInit {
   userLogged = this.authService.getUserLogged();
   disabled: boolean = false;
 
-  constructor(private authService: ServiceService, private route: Router) {}
+  constructor(
+    private authService: ServiceService, 
+    private route: Router
+    ) {}
 
   ngOnInit(): void {
     this.traerdatos();
@@ -29,6 +32,10 @@ export class NavbarComponent implements OnInit {
 
   login() {
     this.route.navigate(['login']);
+  }
+
+  logout() {
+  this.authService.SignOut();
   }
 
   

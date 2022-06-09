@@ -14,6 +14,7 @@ import { User } from '../models/user';
 })
 export class ServiceService {
   userData: any;
+
   constructor(
     public afauth: AngularFireAuth,
     public store: AngularFirestore,
@@ -35,7 +36,7 @@ export class ServiceService {
     try {
       return await this.afauth
         .signInWithEmailAndPassword(email, password)      
-        
+
     } catch (error) {
       return null;
     }
@@ -85,4 +86,12 @@ export class ServiceService {
       merge: true,
     });
   }
+    // Sign out
+    SignOut() {
+      return this.afauth.signOut().then(() => {
+        localStorage.removeItem('user');
+        this.router.navigate(['login']);
+      });
+    }
+
 }
