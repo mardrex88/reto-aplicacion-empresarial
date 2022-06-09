@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService, Message } from 'primeng/api';
@@ -22,9 +23,10 @@ export class RegistroComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    public fireAuth: AngularFireAuth,
     private messageService: MessageService,
     private authService: ServiceService,
-    private route: Router
+    private route: Router,
   ) {}
 
   ngOnInit(): void {}
@@ -32,13 +34,14 @@ export class RegistroComponent implements OnInit {
   ingresar() {
     this.mostrar = !this.mostrar;    
     this.authService
-      .loginRegistre(this.form.value.email, this.form.value.password)
+      .register(this.form.value.email, this.form.value.password)
       .then((res) => {       
         if (res) {
+          this.sendEmailVerification();
           this.messageService.add({
             severity: 'success',
             summary: '!Exitoso¡',
-            detail: 'Usuario Almacenado correctamente',
+            detail: 'Usuario Registrado Correctamente',
           });
           setTimeout(() => {
             this.route.navigate(['preguntas']);
@@ -90,4 +93,10 @@ export class RegistroComponent implements OnInit {
   spinner() {
     this.mostrar = !this.mostrar;
   }
+
+  //Funcion que envia el correo de validacion para poder iniciar sesion
+    sendEmailVerification() {
+      return this.fireAuth.currentUser
+        .then((currentUser:any) => currentUser.sendEmailVerification());
+    }
 }

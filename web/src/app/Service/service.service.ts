@@ -40,10 +40,10 @@ export class ServiceService {
       return null;
     }
   }
-  async loginRegistre(email: string, password: string) {
+  async register(email: string, password: string) {
     try {
       return await this.afauth
-        .createUserWithEmailAndPassword(email, password)        
+        .createUserWithEmailAndPassword(email, password)      
     } catch (error) {
       return null;
     }
