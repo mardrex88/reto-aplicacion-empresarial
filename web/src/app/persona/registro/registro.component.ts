@@ -37,7 +37,7 @@ export class RegistroComponent implements OnInit {
       .register(this.form.value.email, this.form.value.password)
       .then((res) => {       
         if (res) {
-          this.sendEmailVerification();
+          this.sendEmailVerificacion();
           this.messageService.add({
             severity: 'success',
             summary: '!Exitoso¡',
@@ -57,10 +57,11 @@ export class RegistroComponent implements OnInit {
         this.mostrar = !this.mostrar;
       });
   }
-  ingresarGoogle() {
+
+  loginWithGoogle() {
     this.mostrar = !this.mostrar;    
     this.authService
-      .loginGoogle(this.form.value.email, this.form.value.password)
+      .loginGoogle()
       .then((res) => {
         this.mostrar = !this.mostrar;
       });
@@ -95,7 +96,7 @@ export class RegistroComponent implements OnInit {
   }
 
   //Funcion que envia el correo de validacion para poder iniciar sesion
-    sendEmailVerification() {
+    sendEmailVerificacion() {
       return this.fireAuth.currentUser
         .then((currentUser:any) => currentUser.sendEmailVerification());
     }

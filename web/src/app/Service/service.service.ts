@@ -14,10 +14,11 @@ import { User } from '../models/user';
 })
 export class ServiceService {
   userData: any;
+
   constructor(
     public afauth: AngularFireAuth,
     public store: AngularFirestore,
-    public router: Router
+    public router: Router,
   ) {
     this.afauth.authState.subscribe((user) => {
       if (user) {
@@ -35,7 +36,7 @@ export class ServiceService {
     try {
       return await this.afauth
         .signInWithEmailAndPassword(email, password)      
-        
+
     } catch (error) {
       return null;
     }
@@ -43,20 +44,24 @@ export class ServiceService {
   async register(email: string, password: string) {
     try {
       return await this.afauth
-        .createUserWithEmailAndPassword(email, password)      
+        .createUserWithEmailAndPassword(email, password) 
     } catch (error) {
       return null;
     }
   }
 
-  async resetPassword(email: string) {
-    try {
-      return this.afauth.sendPasswordResetEmail(email);
-    } catch (error) {
+  resetPassword(email: string) {
+    return this.afauth
+    .sendPasswordResetEmail(email)
+    .then((result) => {
+    return "ok";
+    })
+    .catch(() => {
       return null;
-    }
-  }
-  async loginGoogle(email: string, password: string) {
+    })
+}
+
+  async loginGoogle() {
     try {
       return await this.afauth
         .signInWithPopup(new firebase.auth.GoogleAuthProvider())       
@@ -85,4 +90,12 @@ export class ServiceService {
       merge: true,
     });
   }
+    // Sign out
+    SignOut() {
+      return this.afauth.signOut().then(() => {
+        localStorage.removeItem('user');
+        this.router.navigate(['login']);
+      });
+    }
+
 }

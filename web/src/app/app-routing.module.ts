@@ -5,12 +5,14 @@ import { QuestionComponent } from './paginas/question/question.component';
 import { RequestionComponent } from './paginas/requestion/requestion.component';
 import { LoginComponent } from './persona/login/login.component';
 import { PreguntasComponent } from './persona/preguntas/preguntas.component';
+import { RecuperarContrasenaComponent } from './persona/recuperar-contrasena/recuperar-contrasena.component';
 import { RegistroComponent } from './persona/registro/registro.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'preguntas', component: PreguntasComponent},
   { path: 'registro', component: RegistroComponent},
+  { path: 'forgot-password', component: RecuperarContrasenaComponent},
   { path: 'answer', component: AnswerComponent},
   {path: 'question/:id', component: RequestionComponent},
   {path: '**', pathMatch: 'full', redirectTo:'preguntas'}
