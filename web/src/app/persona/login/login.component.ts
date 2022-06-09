@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
   ingresarGoogle() {
     this.mostrar = !this.mostrar;       
     this.authService
-      .loginGoogle(this.form.value.email, this.form.value.password)
+      .loginGoogle()
       .then((res) => {
         if (res) {
           this.messageService.add({

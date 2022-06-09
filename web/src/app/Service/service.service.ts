@@ -57,7 +57,8 @@ export class ServiceService {
       return null;
     }
   }
-  async loginGoogle(email: string, password: string) {
+
+  async loginGoogle() {
     try {
       return await this.afauth
         .signInWithPopup(new firebase.auth.GoogleAuthProvider())       

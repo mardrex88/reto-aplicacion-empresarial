@@ -57,10 +57,11 @@ export class RegistroComponent implements OnInit {
         this.mostrar = !this.mostrar;
       });
   }
-  ingresarGoogle() {
+
+  loginWithGoogle() {
     this.mostrar = !this.mostrar;    
     this.authService
-      .loginGoogle(this.form.value.email, this.form.value.password)
+      .loginGoogle()
       .then((res) => {
         this.mostrar = !this.mostrar;
       });

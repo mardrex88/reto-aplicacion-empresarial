@@ -23,6 +23,7 @@ export class PreguntasComponent implements OnInit {
   constructor(
     private service: QuestionService,
     public authService: ServiceService
+
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +75,7 @@ export class PreguntasComponent implements OnInit {
       } else {
         this.disabled = false;     
       }
+   
     });
   }
 }
