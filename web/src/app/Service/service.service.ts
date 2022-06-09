@@ -18,7 +18,7 @@ export class ServiceService {
   constructor(
     public afauth: AngularFireAuth,
     public store: AngularFirestore,
-    public router: Router
+    public router: Router,
   ) {
     this.afauth.authState.subscribe((user) => {
       if (user) {
@@ -44,19 +44,22 @@ export class ServiceService {
   async register(email: string, password: string) {
     try {
       return await this.afauth
-        .createUserWithEmailAndPassword(email, password)      
+        .createUserWithEmailAndPassword(email, password) 
     } catch (error) {
       return null;
     }
   }
 
-  async resetPassword(email: string) {
-    try {
-      return this.afauth.sendPasswordResetEmail(email);
-    } catch (error) {
+  resetPassword(email: string) {
+    return this.afauth
+    .sendPasswordResetEmail(email)
+    .then((result) => {
+    return "ok";
+    })
+    .catch(() => {
       return null;
-    }
-  }
+    })
+}
 
   async loginGoogle() {
     try {

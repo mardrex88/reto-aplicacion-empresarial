@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
         this.mostrar = !this.mostrar;
       });
   }
+  
   ingresarGoogle() {
     this.mostrar = !this.mostrar;       
     this.authService

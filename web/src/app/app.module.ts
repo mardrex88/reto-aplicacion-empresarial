@@ -24,6 +24,7 @@ import { EditComponent } from './paginas/edit/edit.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { RecuperarContrasenaComponent } from './persona/recuperar-contrasena/recuperar-contrasena.component';
 
 
 
@@ -37,7 +38,8 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     AnswerComponent,
     QuestionComponent,
     RequestionComponent,
-    EditComponent
+    EditComponent,
+    RecuperarContrasenaComponent
        
   ],
   imports: [
