@@ -35,7 +35,7 @@ export class PreguntasComponent implements OnInit {
     this.userLogged.subscribe(value =>{
         this.uid=value?.uid
     });
-    this.service.getPage(this.page).subscribe((data) => {
+    this.service.getAllQuetions(this.page).subscribe((data) => {
         this.questions = data;
     });
     this.service
