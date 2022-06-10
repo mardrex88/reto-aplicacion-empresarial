@@ -13,13 +13,13 @@ export class QuestionService {
   }
 
 
-  private url: string = 'http://localhost:8080/';
+  private url: string = 'https://app-reto-preguntas.herokuapp.com/';
 
 
   constructor(private http: HttpClient) {}
 
-  getPage(page: number): Observable<QuestionI[]> {
-    let direction = this.url + 'pagination/' + page;
+  getAllQuetions(page: number): Observable<QuestionI[]> {
+    let direction = this.url + 'getAll/'  ;
     return this.http.get<QuestionI[]>(direction);
   }
 
@@ -39,7 +39,7 @@ export class QuestionService {
   }
 
   getCountQuestions(): Observable<number> {
-    let direction = this.url + 'countQuestions';
+    let direction = this.url + 'getCountQuestions';
     return this.http.get<number>(direction);
   }
 
