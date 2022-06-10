@@ -6,7 +6,7 @@
     <p class="text-start fs-4 font2">{{ totalQuestions }} Preguntas</p>
   </div>
   <div class="text-end font1" *ngIf="authService.userData as user">
-    <app-question></app-question>
+    <app-question (preguntaCreada)="getQuestions()"></app-question>
   </div>
   <div class="text-end fs-5" *ngIf="!authService.userData">
     <button
