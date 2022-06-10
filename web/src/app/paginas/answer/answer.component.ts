@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ import { ServiceService } from 'src/app/Service/service.service';
 })
 export class AnswerComponent implements OnInit {
 
+  @Output() respuestaAgregada = new EventEmitter();
   
   public form: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -59,9 +60,7 @@ export class AnswerComponent implements OnInit {
             summary: 'Se ha agregado la respuesta',
             
            });
-           setTimeout(() => {
-           window.location.reload();
-         }, 1000);
+             this.respuestaAgregada.emit();
         }        
       },
       error: (e) =>
