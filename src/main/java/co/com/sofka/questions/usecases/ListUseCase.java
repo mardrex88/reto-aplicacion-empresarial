@@ -5,6 +5,7 @@ import co.com.sofka.questions.reposioties.QuestionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.function.Supplier;
 
@@ -23,6 +24,10 @@ public class ListUseCase implements Supplier<Flux<QuestionDTO>> {
     public Flux<QuestionDTO> get() {
         return questionRepository.findAll()
                 .map(mapperUtils.mapEntityToQuestion());
+}
+
+    public Mono<Long> count(){
+        return questionRepository.findAll().count();
     }
 
 }

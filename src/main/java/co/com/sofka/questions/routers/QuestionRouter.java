@@ -42,6 +42,21 @@ public class QuestionRouter {
                                 .body(BodyInserters.fromPublisher(listUseCase.get(), QuestionDTO.class))
         );
     }
+    //Get count question
+    @Bean
+    @RouterOperation(beanClass = ListUseCase.class, beanMethod = "count",
+            operation = @Operation(operationId = "getCountQuestions", summary = "Count questions", tags = {"Questions"},
+                    responses = {@ApiResponse(responseCode = "200", description = "OK"),
+                            @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(examples = { @ExampleObject(value = "")})}),
+                            @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(examples = { @ExampleObject(value = "")})}),
+                            @ApiResponse(responseCode = "404", description = "Not found", content = { @Content(examples = { @ExampleObject(value = "")})})}))
+    public RouterFunction<ServerResponse> getCountQuestions(ListUseCase listUseCase) {
+        return route(GET("/getCountQuestions"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.count(), Long.class))
+        );
+    }
 
     //Get all questions user
     @Bean
