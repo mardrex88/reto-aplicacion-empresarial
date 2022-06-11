@@ -1,7 +1,9 @@
 package co.com.sofka.questions.routers;
 
 import co.com.sofka.questions.model.AnswerDTO;
+import co.com.sofka.questions.model.EmailBodyDTO;
 import co.com.sofka.questions.model.QuestionDTO;
+import co.com.sofka.questions.services.EmailService;
 import co.com.sofka.questions.usecases.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,13 +18,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.servlet.function.RouterFunctions;
 import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
+import static reactor.core.publisher.MonoExtensionsKt.toMono;
 
 @Configuration
 public class QuestionRouter {
@@ -37,7 +43,7 @@ public class QuestionRouter {
                             @ApiResponse(responseCode = "404", description = "Not found", content = { @Content(examples = { @ExampleObject(value = "")})})}))
     public RouterFunction<ServerResponse> getAll(ListUseCase listUseCase) {
         return route(GET("/getAll"),
-                        request -> ServerResponse.ok()
+                        request -> ok()
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .body(BodyInserters.fromPublisher(listUseCase.get(), QuestionDTO.class))
         );
@@ -52,7 +58,7 @@ public class QuestionRouter {
                             @ApiResponse(responseCode = "404", description = "Not found", content = { @Content(examples = { @ExampleObject(value = "")})})}))
     public RouterFunction<ServerResponse> getCountQuestions(ListUseCase listUseCase) {
         return route(GET("/getCountQuestions"),
-                request -> ServerResponse.ok()
+                request -> ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(listUseCase.count(), Long.class))
         );
@@ -70,7 +76,7 @@ public class QuestionRouter {
     public RouterFunction<ServerResponse> getOwnerAll(OwnerListUseCase ownerListUseCase) {
         return route(
                 GET("/getOwnerAll/{userId}"),
-                request -> ServerResponse.ok()
+                request -> ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(
                                 ownerListUseCase.apply(request.pathVariable("userId")),
@@ -89,7 +95,7 @@ public class QuestionRouter {
                              @ApiResponse(responseCode = "404", description = "Not found", content = { @Content(examples = { @ExampleObject(value = "")})})}))
     public RouterFunction<ServerResponse> create(CreateUseCase createUseCase) {
         Function<QuestionDTO, Mono<ServerResponse>> executor = questionDTO -> createUseCase.apply(questionDTO)
-                .flatMap(result -> ServerResponse.ok()
+                .flatMap(result -> ok()
                         .contentType(MediaType.TEXT_PLAIN)
                         .bodyValue(result));
 
@@ -110,7 +116,7 @@ public class QuestionRouter {
     public RouterFunction<ServerResponse> get(GetUseCase getUseCase) {
         return route(
                 GET("/get/{id}").and(accept(MediaType.APPLICATION_JSON)),
-                request -> ServerResponse.ok()
+                request -> ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(getUseCase.apply(
                                         request.pathVariable("id")),
@@ -131,7 +137,7 @@ public class QuestionRouter {
         return route(POST("/add").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(AnswerDTO.class)
                         .flatMap(addAnswerDTO -> addAnswerUseCase.apply(addAnswerDTO)
-                                .flatMap(result -> ServerResponse.ok()
+                                .flatMap(result -> ok()
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
                         )
@@ -152,6 +158,34 @@ public class QuestionRouter {
                 request -> ServerResponse.accepted()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")), Void.class))
+        );
+    }
+    //Enviar Email
+    @Bean
+  /*  @RouterOperation(beanClass = DeleteUseCase.class, beanMethod = "apply",
+            operation = @Operation(operationId = "deleteQuestion", summary = "Delete question by id", tags = {"Questions"},
+                    responses = {@ApiResponse(responseCode = "200", description = "OK"),
+                            @ApiResponse(responseCode = "204", description = "No content", content = { @Content(examples = { @ExampleObject(value = "")})}),
+                            @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(examples = { @ExampleObject(value = "")})}),
+                            @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(examples = { @ExampleObject(value = "")})})})) */
+    public RouterFunction<ServerResponse> sendEmail(EmailService emailService) {
+//        String toEmail = request.pathVariable("toEmail");
+//        String subject = request.pathVariable("subject");
+//        String body = request.pathVariable("body");
+//        return route(POST("/sendEmail").and(accept(MediaType.APPLICATION_JSON)),
+//                request -> request.bodyToMono(EmailBodyDTO.class)
+//                        .flatMap(emailBodyDTO -> emailService.sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBody()),Void.class)
+//                                .flatMap(result -> ok()
+//                                        .contentType(MediaType.APPLICATION_JSON)
+//                                        .bodyValue(result)));
+        Function<EmailBodyDTO, Mono<ServerResponse>> executor = emailBodyDTO -> emailService.sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBody())
+                .flatMap(result -> ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .bodyValue(result));
+
+        return route(
+                POST("/sendEmail").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(EmailBodyDTO.class).flatMap(executor)
         );
     }
 }
