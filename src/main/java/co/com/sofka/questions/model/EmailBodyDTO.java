@@ -91,7 +91,7 @@ public class EmailBodyDTO {
                 "                                            <p>puedes ver la respuesta aquí:</p>\n" +
                 "\n" +
                 "\n" +
-                "                                            <a target=\"_blank\" href=\"https://angular1-a60b9.web.app/wuestion/"+idQuestion+"\">\n" +
+                "                                            <a target=\"_blank\" href=\"https://angular1-a60b9.web.app/question/"+idQuestion+"\">\n" +
                 "                                                <button >Ver Respuestas</button>\n" +
                 "                                            </a>\n" +
                 "                                                \n" +
