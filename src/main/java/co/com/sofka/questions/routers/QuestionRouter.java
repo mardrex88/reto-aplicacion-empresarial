@@ -178,13 +178,13 @@ public class QuestionRouter {
 //                                .flatMap(result -> ok()
 //                                        .contentType(MediaType.APPLICATION_JSON)
 //                                        .bodyValue(result)));
-        Function<EmailBodyDTO, Mono<ServerResponse>> executor = emailBodyDTO -> emailService.sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBody())
+        Function<EmailBodyDTO, Mono<ServerResponse>> executor = emailBodyDTO -> emailService.sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBodyQuestion(),emailBodyDTO.getIdQuestion())
                 .flatMap(result -> ok()
                         .contentType(MediaType.TEXT_PLAIN)
                         .bodyValue(result));
 
         return route(
-                POST("/sendEmail").and(accept(MediaType.APPLICATION_JSON)),
+                POST("/sendEmail").and(accept(MediaType.TEXT_PLAIN)),
                 request -> request.bodyToMono(EmailBodyDTO.class).flatMap(executor)
         );
     }

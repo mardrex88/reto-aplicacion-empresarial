@@ -17,7 +17,8 @@ public class SendEmailUseCase  {
     public void send(EmailBodyDTO emailBodyDTO) {
         Objects.requireNonNull(emailBodyDTO.getToEmail(), "email to reuired");
         Objects.requireNonNull(emailBodyDTO.getSubject(), "subject required");
-        Objects.requireNonNull(emailBodyDTO.getBody(), "Body required");
-        emailService.sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBody());
+        Objects.requireNonNull(emailBodyDTO.getBodyQuestion(), "BodyQuestion required");
+        Objects.requireNonNull(emailBodyDTO.getIdQuestion(), "IdQuestion required");
+        emailService.sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBodyQuestion(),emailBodyDTO.getIdQuestion());
     }
 }
