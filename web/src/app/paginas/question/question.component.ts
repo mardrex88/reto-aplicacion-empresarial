@@ -64,7 +64,7 @@ export class QuestionComponent implements OnInit {
              
             });
             this.preguntaCreada.emit();
-            this.clearForm()
+            this.clearForm();
         } else {
           
         }
