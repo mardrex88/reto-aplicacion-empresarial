@@ -3,6 +3,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService, Message } from 'primeng/api';
+import { User } from 'src/app/models/user';
+import { QuestionService } from 'src/app/Service/question.service';
 import { ServiceService } from 'src/app/Service/service.service';
 
 @Component({
@@ -12,6 +14,7 @@ import { ServiceService } from 'src/app/Service/service.service';
   providers: [MessageService],
 })
 export class RegistroComponent implements OnInit {
+  userData2!: any;
   mostrar: Boolean = false;
   val1: number = 3;
 
@@ -37,13 +40,25 @@ export class RegistroComponent implements OnInit {
       .register(this.form.value.email, this.form.value.password)
       .then((res) => {       
         if (res) {
+        //  this.getUserLogged();
+        this.authService.getUserLogged2();
+        setTimeout(() => {
+        this.userData2= JSON.parse(localStorage.getItem('user')!);
+        const userData: User = {
+          uid:  this.userData2.uid,
+          email:  this.userData2.email,
+          displayName:  '',
+          photoURL:  '',
+          emailVerified:  this.userData2.emailVerified,
+        };
           this.sendEmailVerificacion();
+          this.authService.setUserData(userData);
           this.messageService.add({
             severity: 'success',
             summary: '!Exitoso¡',
             detail: 'Usuario Registrado Correctamente',
           });
-          setTimeout(() => {
+          
             this.route.navigate(['preguntas']);
           }, 2000);
         } else {
@@ -59,7 +74,7 @@ export class RegistroComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    this.mostrar = !this.mostrar;    
+    this.mostrar = !this.mostrar;
     this.authService
       .loginGoogle()
       .then((res) => {
@@ -70,7 +85,7 @@ export class RegistroComponent implements OnInit {
     this.authService.getUserLogged().subscribe((res) => {
     });
   }
-  
+
   preguntasHome() {
     this.route.navigate(['preguntas']);
   }

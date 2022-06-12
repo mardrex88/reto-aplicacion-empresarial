@@ -17,7 +17,7 @@ import { ServiceService } from 'src/app/Service/service.service';
 export class AnswerComponent implements OnInit {
 
   @Output() respuestaAgregada = new EventEmitter();
-  
+
   public form: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(10)]],
@@ -33,7 +33,7 @@ export class AnswerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     public authService: ServiceService
-  ) {}
+  ) { }
 
   answer: AnswerI = {
     userId: '',
@@ -42,7 +42,7 @@ export class AnswerComponent implements OnInit {
     position: 0,
   };
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   openVerticallyCentered(content: any) {
     this.modalService.open(content, { centered: true });
@@ -53,22 +53,26 @@ export class AnswerComponent implements OnInit {
     this.answer.questionId = this.item.id;
     this.services.saveAnswer(this.answer).subscribe({
       next: (v) => {
-        if(v){
+        if (v) {
+          this.authService.getEmailByUid(this.item.userId).then((result) => {
+            this.services.sendEmailAnwer(result.data()?.email, this.item).subscribe();
+          }).catch((e) => { console.log(e) });
           this.modalService.dismissAll();
           this.messageService.add({
             severity: 'success',
             summary: 'Se ha agregado la respuesta',
-            
-           });
-             this.respuestaAgregada.emit();
-        }        
+
+          });
+
+          this.respuestaAgregada.emit();
+        }
       },
       error: (e) =>
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Rectifique los datos',
-        detail: '(Campos Vacios)-Intente de Nuevo',
-      }),
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Rectifique los datos',
+          detail: '(Campos Vacios)-Intente de Nuevo',
+        }),
       complete: () => console.info('complete'),
     });
   }
