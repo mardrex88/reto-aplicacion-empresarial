@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { QuestionI } from '../models/question-i';
 import { AnswerI } from '../models/answer-i';
+import { EmailBody } from '../models/emailBody-i';
 @Injectable({
   providedIn: 'root',
 })
@@ -58,5 +59,26 @@ export class QuestionService {
   editQuestion(question: QuestionI): Observable<any> {
     let direction = this.url + 'update';
     return this.http.post<any>(direction, question);
+  }
+
+  sendEmail(toEmail: string, subject: string, body: string): Observable<any> {
+    let direction = this.url + 'sendEmail';
+    return this.http.post<any>(direction, { toEmail, subject, body });
+  }
+
+  sendEmailAnwer(email1: any, question: QuestionI): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    let direction = this.url + 'sendEmail/';
+    const email:EmailBody ={
+        toEmail : ''+email1,
+        subject: "Alguien Respondio tu pregunta",
+        bodyQuestion: question.question,
+        idQuestion: question.id
+    }
+    return this.http.post<string>(direction, email, httpOptions); 
   }
 }

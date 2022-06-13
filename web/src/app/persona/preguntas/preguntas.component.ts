@@ -14,11 +14,14 @@ export class PreguntasComponent implements OnInit {
 
   totalQuestions: number = 0;
 
-  questions: QuestionI[] | undefined;
+  questions: QuestionI[] | any;
   user: any = '';
-  page: number = 0;
   pages: Array<number> | undefined;
   disabled: boolean = false;
+
+  page: number = 1;
+  count: number = 0;
+  tableSize: number = 10;
 
   constructor(
     private service: QuestionService,
@@ -31,13 +34,23 @@ export class PreguntasComponent implements OnInit {
     this.traerdatos();
   }
 
+  onTableDataChange(event: any) {
+    this.page = event;
+    this.getQuestions();
+  }
+  onTableSizeChange(event: any): void {
+    this.tableSize = event.target.value;
+    this.page = 1;
+    this.getQuestions();
+  }
+
   getQuestions(): void {
     this.userLogged.subscribe(value =>{
         this.uid=value?.uid
     });
     this.service.getAllQuetions(this.page).subscribe((data) => {
         this.questions = data;
-    });
+    }); 
     this.service
       .getTotalPages()
       .subscribe((data) => (this.pages = new Array(data)));

@@ -25,6 +25,7 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { RecuperarContrasenaComponent } from './persona/recuperar-contrasena/recuperar-contrasena.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -55,7 +56,8 @@ import { RecuperarContrasenaComponent } from './persona/recuperar-contrasena/rec
     ToastrModule.forRoot(),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    NgxPaginationModule,
     
    
     

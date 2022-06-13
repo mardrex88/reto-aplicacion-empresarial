@@ -11,9 +11,10 @@ import { QuestionService } from 'src/app/Service/question.service';
 })
 export class RequestionComponent implements OnInit {
   question: QuestionI | undefined;
-  answers: AnswerI[] | undefined;
+  answers: AnswerI[]  = [];
   answersNew: AnswerI[] = [];
   currentAnswer: number = 0;
+  average:number = 0;
 
   questions: QuestionI[] | undefined;
 
@@ -49,6 +50,7 @@ export class RequestionComponent implements OnInit {
     this.questionService.getQuestion(id).subscribe((data) => {
       this.question = data;
       this.answers = data.answers;
+      this.getAverage();
     });
   }
 
@@ -57,6 +59,15 @@ export class RequestionComponent implements OnInit {
     for (let i = this.currentAnswer; i < last; i++) {}
     this.currentAnswer += 10;
   }
+
+  getAverage(){
+    this.average = Math.round(this.answers.reduce((acumulador, siguienteValor)=>{
+      return {
+        promedio: acumulador.promedio + siguienteValor.position
+      };
+    }, {promedio: 0}).promedio/this.answers.length); 
+  }
+
 
   onScroll() {}
 }

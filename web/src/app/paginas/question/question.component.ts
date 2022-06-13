@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,9 @@ import { ServiceService } from 'src/app/Service/service.service';
   providers: [MessageService],
 })
 export class QuestionComponent implements OnInit {
+
+  @Output() preguntaCreada = new EventEmitter();
+
   answers: AnswerI[] | undefined;
   question: answe = {
     id:
@@ -60,9 +63,8 @@ export class QuestionComponent implements OnInit {
              summary: 'Se ha agregado la pregunta',
              
             });
-            setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+            this.preguntaCreada.emit();
+            this.clearForm();
         } else {
           
         }
@@ -82,4 +84,21 @@ export class QuestionComponent implements OnInit {
     });
   }
   }
+
+  clearForm(){
+    this.question = {id:
+      this.authService.userData.uid == undefined
+        ? ''
+        : this.authService.userData.uid,
+    userId:
+      this.authService.userData.uid == undefined
+        ? ''
+        : this.authService.userData.uid,
+    question: '',
+    type: '',
+    category: '',
+    answers:[null],
+    start: '2'}
+  }
+
 }

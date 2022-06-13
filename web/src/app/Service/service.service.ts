@@ -20,6 +20,52 @@ export class ServiceService {
     public store: AngularFirestore,
     public router: Router,
   ) {
+    this.getUserLogged2();
+  }
+
+  async login(email: string, password: string) {
+    try {
+      return await this.afauth
+        .signInWithEmailAndPassword(email, password)
+
+    } catch (error) {
+      return null;
+    }
+  }
+  async register(email: string, password: string) {
+    try {
+      return await this.afauth
+        .createUserWithEmailAndPassword(email, password)
+    } catch (error) {
+      return null;
+    }
+  }
+
+  resetPassword(email: string) {
+    return this.afauth
+      .sendPasswordResetEmail(email)
+      .then((result) => {
+        return "ok";
+      })
+      .catch(() => {
+        return null;
+      })
+  }
+
+  async loginGoogle() {
+    try {
+      return await this.afauth
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    } catch (error) {
+      return null;
+    }
+  }
+
+  getUserLogged() {
+    return this.afauth.authState;
+  }
+
+  getUserLogged2() {
     this.afauth.authState.subscribe((user) => {
       if (user) {
         this.userData = user;
@@ -32,50 +78,8 @@ export class ServiceService {
     });
   }
 
-  async login(email: string, password: string) {
-    try {
-      return await this.afauth
-        .signInWithEmailAndPassword(email, password)      
 
-    } catch (error) {
-      return null;
-    }
-  }
-  async register(email: string, password: string) {
-    try {
-      return await this.afauth
-        .createUserWithEmailAndPassword(email, password) 
-    } catch (error) {
-      return null;
-    }
-  }
-
-  resetPassword(email: string) {
-    return this.afauth
-    .sendPasswordResetEmail(email)
-    .then((result) => {
-    return "ok";
-    })
-    .catch(() => {
-      return null;
-    })
-}
-
-  async loginGoogle() {
-    try {
-      return await this.afauth
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())       
-    } catch (error) {
-      return null;
-    }
-  }
-
-  getUserLogged() {
-    return this.afauth.authState;
-  }
-
-
-  SetUserData(user: any) {
+  setUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.store.doc(
       `users/${user.uid}`
     );
@@ -90,12 +94,16 @@ export class ServiceService {
       merge: true,
     });
   }
-    // Sign out
-    SignOut() {
-      return this.afauth.signOut().then(() => {
-        localStorage.removeItem('user');
-        this.router.navigate(['login']);
-      });
-    }
+  // Sign out
+  SignOut() {
+    return this.afauth.signOut().then(() => {
+      localStorage.removeItem('user');
+      this.router.navigate(['login']);
+    });
+  }
+
+  async getEmailByUid(uid2:string){
+    return this.store.collection("users").doc<User>(uid2).ref.get();
+  }
 
 }

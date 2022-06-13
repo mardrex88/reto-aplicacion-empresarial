@@ -53,5 +53,6 @@ class OwnerListUseCaseTest {
                 }).verifyComplete();
 
         verify(questionRepository).findByUserId(question.getUserId());
+
     }
 }
