@@ -15,11 +15,6 @@ public class AnswerDTO {
 
     private Integer position;
 
-
-    public AnswerDTO() {
-
-    }
-
     public AnswerDTO(@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer, Integer position) {
         this.userId = userId;
         this.questionId = questionId;

@@ -52,6 +52,7 @@ public class EmailBodyDTO {
         this.idQuestion = idQuestion;
     }
 
+    //Esta funcion retorna un string con el codigo html para dar estilo al cuerpo del email
     public static String getBodyMailQuestion(String bodyQuestion,String idQuestion){
         return  "<!DOCTYPE html\n" +
                 "    PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +

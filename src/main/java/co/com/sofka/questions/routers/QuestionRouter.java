@@ -162,23 +162,9 @@ public class QuestionRouter {
     }
     //Enviar Email
     @Bean
-  /*  @RouterOperation(beanClass = DeleteUseCase.class, beanMethod = "apply",
-            operation = @Operation(operationId = "deleteQuestion", summary = "Delete question by id", tags = {"Questions"},
-                    responses = {@ApiResponse(responseCode = "200", description = "OK"),
-                            @ApiResponse(responseCode = "204", description = "No content", content = { @Content(examples = { @ExampleObject(value = "")})}),
-                            @ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(examples = { @ExampleObject(value = "")})}),
-                            @ApiResponse(responseCode = "403", description = "Forbidden", content = { @Content(examples = { @ExampleObject(value = "")})})})) */
     public RouterFunction<ServerResponse> sendEmail(EmailService emailService) {
-//        String toEmail = request.pathVariable("toEmail");
-//        String subject = request.pathVariable("subject");
-//        String body = request.pathVariable("body");
-//        return route(POST("/sendEmail").and(accept(MediaType.APPLICATION_JSON)),
-//                request -> request.bodyToMono(EmailBodyDTO.class)
-//                        .flatMap(emailBodyDTO -> emailService.sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBody()),Void.class)
-//                                .flatMap(result -> ok()
-//                                        .contentType(MediaType.APPLICATION_JSON)
-//                                        .bodyValue(result)));
-        Function<EmailBodyDTO, Mono<ServerResponse>> executor = emailBodyDTO -> emailService.sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBodyQuestion(),emailBodyDTO.getIdQuestion())
+                Function<EmailBodyDTO, Mono<ServerResponse>> executor = emailBodyDTO -> emailService
+                        .sendEmail(emailBodyDTO.getToEmail(),emailBodyDTO.getSubject(),emailBodyDTO.getBodyQuestion(),emailBodyDTO.getIdQuestion())
                 .flatMap(result -> ok()
                         .contentType(MediaType.TEXT_PLAIN)
                         .bodyValue(result));

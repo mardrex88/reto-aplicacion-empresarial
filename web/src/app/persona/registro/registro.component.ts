@@ -32,10 +32,10 @@ export class RegistroComponent implements OnInit {
   ngOnInit(): void {}
 
   ingresar() {
-    this.mostrar = !this.mostrar;    
+    this.mostrar = !this.mostrar;
     this.authService
       .register(this.form.value.email, this.form.value.password)
-      .then((res) => {       
+      .then((res) => {
         if (res) {
           this.sendEmailVerificacion();
           this.messageService.add({
@@ -59,7 +59,7 @@ export class RegistroComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    this.mostrar = !this.mostrar;    
+    this.mostrar = !this.mostrar;
     this.authService
       .loginGoogle()
       .then((res) => {
@@ -70,7 +70,7 @@ export class RegistroComponent implements OnInit {
     this.authService.getUserLogged().subscribe((res) => {
     });
   }
-  
+
   preguntasHome() {
     this.route.navigate(['preguntas']);
   }
