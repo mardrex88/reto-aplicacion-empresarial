@@ -53,8 +53,27 @@ Link Heroku: https://app-reto-preguntas.herokuapp.com/getAll
 
 20 pts - Uso de Swagger
 
-#### Evidencia - Notificación Email
+#### Evidencia - Notificación Email 📧
 ![Email](https://user-images.githubusercontent.com/88548284/173262706-6e3bb810-51e4-4f0c-8e74-ae3aacceb1ea.jpg)
+
+<h1 align="center"></h1>
+
+### Evidencia - Postman <a href="#" target="_blank" rel="noreferrer"> <img src="https://user-images.githubusercontent.com/88548284/173960162-bdd71b40-138d-4e57-81b7-49358d655660.png" alt="Spring Boot" width="40" height="40"/></a> 
+
+#### 🟢 Obtener todas las preguntas
+![get all questions](https://user-images.githubusercontent.com/88548284/173958253-da27ab6d-7b7d-4546-b7aa-35d674d97578.jpg)
+#### 🟢 Obtener pregunta por su id
+![get id question](https://user-images.githubusercontent.com/88548284/173958283-f05bea48-fae9-44e9-bc05-e8c6176d22b7.jpg)
+#### 🟢 Obtener preguntas de un usuario por su id
+![get for user](https://user-images.githubusercontent.com/88548284/173958270-6442fadf-78ed-469a-918d-4225182153cc.jpg)
+#### 🟢 Obtener el número de preguntas
+![get count questions](https://user-images.githubusercontent.com/88548284/173958261-6a275e28-bbd1-4d37-b9b0-f9e3319a4911.jpg)
+#### 🟡 Crear una pregunta
+![post question](https://user-images.githubusercontent.com/88548284/173958285-0cba5b76-c376-480b-a198-c7a9925c2040.jpg)
+#### 🟡 Crear una respuesta
+![post respuesta](https://user-images.githubusercontent.com/88548284/173958291-5ab3640e-0ff3-476b-9047-badc0058ffa3.jpg)
+#### 🔴 Eliminar una pregunta
+![delete question](https://user-images.githubusercontent.com/88548284/173958243-6da3ea95-d0f5-401f-8dbc-adcf1211cf5b.jpg)
 
 <h1 align="center"></h1>
 
@@ -70,7 +89,7 @@ Link Heroku: https://app-reto-preguntas.herokuapp.com/getAll
 
 ### 💻 Proyecto Full-stack realizado por:
 
-👦 Marlon Andres Vargar
+👦 Marlon Andres Vargas
 
 👧 María Camila Morales
 
